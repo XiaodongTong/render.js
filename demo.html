@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <title>render.js demo</title>
+	<meta charset="utf-8" />
+</head>
+<body>
+    <!--html模板-->
+    <script id="template" type="text/html">
+        <li>
+            <span>[name]</span>
+            <span>[age]</span>
+            <span>[desc]</span>
+        </li>
+    </script>
+    <!--需要加载数据的列表-->
+    <ul id="list">
+        <li id="head">
+            <span>名称</span>
+            <span>年龄</span>
+            <span>描述</span>
+        </li>
+    </ul>
+    <p>render.js依赖于jquery，使用前请先引入jquery</p>
+    <!--END 需要加载数据的列表-->
+    <script src="js/jquery.js"></script>
+    <script src="js/render.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            //需要加载的数据
+            var data = [{ name: '小王', age: 15 }, { name: '小李', age: 16 }, { name: '小赵', age: 14 }];
+
+            $('#list').render({
+                template:  $('#template').html(),//模板html
+                data: data, //json数据
+                head: $('#head'), //列表头部的jquery dom对象 （此项可以不写）
+                extend: function (data) {  //每项数据 扩展判断 （此项可以不写）
+                    var _desc = data.age > 15 ? '<span>高年级</span>' : '<span>底年级</span>';
+                    return [{ desc: _desc }];
+                }
+            });
+            
+        })
+    </script>
+</body>
+</html>
