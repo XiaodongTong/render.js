@@ -11,6 +11,7 @@
 <pre>
     &lt;script id="template" type="text/html"&gt;
         &lt;li&gt;
+        	&lt;span&gt;[rowNum]&lt;/span&gt;
             &lt;span&gt;[name]&lt;/span&gt;
             &lt;span&gt;[age]&lt;/span&gt;
             &lt;span&gt;[desc]&lt;/span&gt;
@@ -23,6 +24,7 @@
 <pre>
     &lt;ul id="list"&gt;
         &lt;li id="head"&gt;
+     		&lt;span&gt;编号&lt;/span&gt;
             &lt;span&gt;名称&lt;/span&gt;
             &lt;span&gt;年龄&lt;/span&gt;
             &lt;span&gt;描述&lt;/span&gt;
@@ -36,13 +38,21 @@
       $(function () {
             //需要加载的数据
             var data = [{ name: '小王', age: 15 }, { name: '小李', age: 16 }, { name: '小赵', age: 14 }];
+            
             $('#list').render({
                 template:  $('#template').html(),//模板html
                 data: data, //json数据
                 head: $('#head'), //列表头部的jquery dom对象 （此项可以不写）
-                extend: function (data) {  //每项数据 扩展判断 （此项可以不写）
-                    var _desc = data.age > 15 ? '<span>高年级</span>' : '<span>底年级</span>';
-                    return [{ desc: _desc }];
+			  （此项可以不写）
+                format:function(data){
+                    data.name = data.name +'先生';
+                    return data;
+                }, 
+
+                extend: function (data,rowNum) {  //每项数据 扩展判断 （此项可以不写）
+                    var _desc = data.age > 15 ? '<span>高年级</span>' : '<span>底年级</span>',
+                        _row = rowNum;
+                    return [{ desc: _desc, rowNum: _row }];
                 }
             });
     })
