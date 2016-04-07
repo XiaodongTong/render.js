@@ -12,16 +12,19 @@
             //遍历 数据
             for (var i = 0; i < config.data.length; i++) {
                 var item = config.data[i]; //当前item
+                if (config.format) { //数据格式化
+                    item = config.format(item);
+                }
                 var temp = template.replace(reg,
                     function (node, key) {
-                        if (item[key]) {
+                        if (item[key] != undefined) {
                             return item[key];
                         } else {
                             return node;
                         }
                     });//替换数据
                 if (config.extend) {
-                    var extObj = config.extend(item);
+                    var extObj = config.extend(item,i+1);
                     var temp = temp.replace(reg, function (node, key) { return extObj[0][key]; });
                 }
                 list += temp;
