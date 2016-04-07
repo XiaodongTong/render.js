@@ -9,6 +9,7 @@
     <!--html模板-->
     <script id="template" type="text/html">
         <li>
+            <span>[rowNum]</span>
             <span>[name]</span>
             <span>[age]</span>
             <span>[desc]</span>
@@ -17,6 +18,7 @@
     <!--需要加载数据的列表-->
     <ul id="list">
         <li id="head">
+            <span>编号</span>
             <span>名称</span>
             <span>年龄</span>
             <span>描述</span>
@@ -35,9 +37,15 @@
                 template:  $('#template').html(),//模板html
                 data: data, //json数据
                 head: $('#head'), //列表头部的jquery dom对象 （此项可以不写）
-                extend: function (data) {  //每项数据 扩展判断 （此项可以不写）
-                    var _desc = data.age > 15 ? '<span>高年级</span>' : '<span>底年级</span>';
-                    return [{ desc: _desc }];
+                format:function(data){
+                    data.name = data.name +'先生';
+                    return data;
+                },                
+                extend: function (data,rowNum) {  //每项数据 扩展判断 （此项可以不写）
+                    var _desc = data.age > 15 ? '<span>高年级</span>' : '<span>底年级</span>',
+                        _row = rowNum;
+
+                    return [{ desc: _desc, rowNum: _row }];
                 }
             });
             
